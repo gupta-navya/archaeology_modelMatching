@@ -31,20 +31,22 @@
                 <item>
                   <widget class="QLabel" name="context_label">
                     <property name="text">
-                      <string>Context</string>
+                      <string>Context:</string>
                     </property>
                   </widget>
                 </item>
                 <item>
+<!-- is hardcoded right now
                   <widget class="QLabel" name="context_value">
                     <property name="text">
-                      <string>156</string>
+                      <string>N-38-478130-4419430-156</string>
                     </property>
                   </widget>
                 </item>
               </layout>
             </widget>
           </item>
+-->
           <item row="0" column="1">
             <widget class="QFrame" name="find_frame">
               <layout class="QHBoxLayout" name="horizontalLayout_2">
