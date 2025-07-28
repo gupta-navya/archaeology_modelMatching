@@ -36,7 +36,7 @@
                   </widget>
                 </item>
                 <item>
-<!-- is hardcoded right now
+<!-- context value is hardcoded right now-->
                   <widget class="QLabel" name="context_value">
                     <property name="text">
                       <string>N-38-478130-4419430-156</string>
@@ -46,7 +46,6 @@
               </layout>
             </widget>
           </item>
--->
           <item row="0" column="1">
             <widget class="QFrame" name="find_frame">
               <layout class="QHBoxLayout" name="horizontalLayout_2">
