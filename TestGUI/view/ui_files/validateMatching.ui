@@ -460,7 +460,7 @@
             </widget>
           </item>
           <item>
-            <widget class="QPushButton" name="exit_button">
+            <widget class="QPushButton" name="finish_button">
               <property name="text">
                 <string>Exit</string>
               </property>
