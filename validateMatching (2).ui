@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>ValidateMatchingWindow</class>
+  <widget class="QDialog" name="ValidateMatchingWindow">
+    <property name="geometry">
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1200</width>
+        <height>800</height>
+      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="windowTitle">
+      <string>Validate Matching</string>
+    </property>
+    <layout class="QGridLayout" name="gridLayout" rowstretch="0,1,0">
+
+      <item row="0" column="0" colspan="3">
+        <layout class="QGridLayout" name="stats_grid">
+          <property name="spacing">
+            <number>10</number>
+          </property>
+          <item row="0" column="0">
+            <widget class="QFrame" name="context_frame">
+              <layout class="QHBoxLayout" name="horizontalLayout">
+                <item>
+                  <widget class="QLabel" name="context_label">
+                    <property name="text">
+                      <string>Context</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="context_value">
+                    <property name="text">
+                      <string>N-38-478130-4419430-156</string>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item row="0" column="1">
+            <widget class="QFrame" name="find_frame">
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                  <widget class="QLabel" name="total_finds_label">
+                    <property name="text">
+                      <string>Total Finds</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="total_finds_value">
+                    <property name="text">
+                      <string>65</string>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item row="0" column="2">
+            <widget class="QFrame" name="model_frame">
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                  <widget class="QLabel" name="total_models_label">
+                    <property name="text">
+                      <string>Total Models</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="total_models_value">
+                    <property name="text">
+                      <string>82</string>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item row="1" column="0">
+            <widget class="QFrame" name="auto_matches_frame">
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <item>
+                  <widget class="QLabel" name="auto_matches_label">
+                    <property name="text">
+                      <string>Total Auto Matches</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="auto_matches_value">
+                    <property name="text">
+                      <string>40</string>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item row="1" column="1">
+            <widget class="QFrame" name="validated_frame">
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <item>
+                  <widget class="QLabel" name="validated_label">
+                    <property name="text">
+                      <string>Validated Matches</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="validated_value">
+                    <property name="text">
+                      <string>13</string>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item row="1" column="2">
+            <widget class="QFrame" name="progress_frame">
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <item>
+                  <widget class="QProgressBar" name="validation_progress">
+                    <property name="value">
+                      <number>32</number>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item row="1" column="0" colspan="3">
+        <layout class="QHBoxLayout" name="validation_frames">
+          <property name="spacing">
+            <number>10</number>
+          </property>
+          <item>
+            <widget class="QFrame" name="validate_match_frame1">
+              <property name="minimumSize">
+                <size>
+                  <width>300</width>
+                  <height>400</height>
+                </size>
+              </property>
+              <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_frame1">
+                <item>
+                  <widget class="QLabel" name="findbackphoto_1">
+                    <property name="minimumSize">
+                      <size>
+                        <width>150</width>
+                        <height>150</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>Back Photo</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="model1">
+                    <property name="minimumSize">
+                      <size>
+                        <width>300</width>
+                        <height>200</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>3D Model View</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="findfrontphoto_1">
+                    <property name="minimumSize">
+                      <size>
+                        <width>150</width>
+                        <height>150</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>Front Photo</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_info1">
+                    <property name="spacing">
+                      <number>2</number>
+                    </property>
+                    <item>
+                      <widget class="QLabel" name="match_info_1">
+                        <property name="text">
+                          <string>Find 1 is matched with model 1</string>
+                        </property>
+                        <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                        </property>
+                      </widget>
+                    </item>
+                    <item>
+                      <widget class="QLabel" name="similarity_score_1">
+                        <property name="text">
+                          <string>Similarity score: 1</string>
+                        </property>
+                        <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                        </property>
+                      </widget>
+                    </item>
+                  </layout>
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item>
+            <widget class="QFrame" name="validate_match_frame2">
+              <property name="minimumSize">
+                <size>
+                  <width>300</width>
+                  <height>400</height>
+                </size>
+              </property>
+              <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_frame2">
+                <item>
+                  <widget class="QLabel" name="findbackphoto_2">
+                    <property name="minimumSize">
+                      <size>
+                        <width>150</width>
+                        <height>150</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>Back Photo</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="model2">
+                    <property name="minimumSize">
+                      <size>
+                        <width>300</width>
+                        <height>200</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>3D Model View</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="findfrontphoto_2">
+                    <property name="minimumSize">
+                      <size>
+                        <width>150</width>
+                        <height>150</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>Front Photo</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_info2">
+                    <property name="spacing">
+                      <number>2</number>
+                    </property>
+                    <item>
+                      <widget class="QLabel" name="match_info_2">
+                        <property name="text">
+                          <string>Find 2 is matched with model 2</string>
+                        </property>
+                        <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                        </property>
+                      </widget>
+                    </item>
+                    <item>
+                      <widget class="QLabel" name="similarity_score_2">
+                        <property name="text">
+                          <string>Similarity score: 1</string>
+                        </property>
+                        <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                        </property>
+                      </widget>
+                    </item>
+                  </layout>
+                </item>
+              </layout>
+            </widget>
+          </item>
+          <item>
+            <widget class="QFrame" name="validate_match_frame3">
+              <property name="minimumSize">
+                <size>
+                  <width>300</width>
+                  <height>400</height>
+                </size>
+              </property>
+              <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_frame3">
+                <item>
+                  <widget class="QLabel" name="findbackphoto_3">
+                    <property name="minimumSize">
+                      <size>
+                        <width>150</width>
+                        <height>150</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>Back Photo</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="model3">
+                    <property name="minimumSize">
+                      <size>
+                        <width>300</width>
+                        <height>200</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>3D Model View</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLabel" name="findfrontphoto_3">
+                    <property name="minimumSize">
+                      <size>
+                        <width>150</width>
+                        <height>150</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>Front Photo</string>
+                    </property>
+                    <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_info3">
+                    <property name="spacing">
+                      <number>2</number>
+                    </property>
+                    <item>
+                      <widget class="QLabel" name="match_info_3">
+                        <property name="text">
+                          <string>Find 3 is matched with model 3</string>
+                        </property>
+                        <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                        </property>
+                      </widget>
+                    </item>
+                    <item>
+                      <widget class="QLabel" name="similarity_score_3">
+                        <property name="text">
+                          <string>Similarity score: 1</string>
+                        </property>
+                        <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                        </property>
+                      </widget>
+                    </item>
+                  </layout>
+                </item>
+              </layout>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item row="2" column="0" colspan="3">
+        <layout class="QHBoxLayout" name="validation_buttons">
+          <item>
+            <spacer name="horizontalSpacer">
+              <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+                <size>
+                  <width>40</width>
+                  <height>20</height>
+                </size>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="previous_button">
+              <property name="text">
+                <string>Previous</string>
+              </property>
+              <property name="minimumSize">
+                <size>
+                  <width>100</width>
+                  <height>40</height>
+                </size>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="next_button">
+              <property name="text">
+                <string>Next</string>
+              </property>
+              <property name="minimumSize">
+                <size>
+                  <width>100</width>
+                  <height>40</height>
+                </size>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="finish_button">
+              <property name="text">
+                <string>Finish</string>
+              </property>
+              <property name="minimumSize">
+                <size>
+                  <width>100</width>
+                  <height>40</height>
+                </size>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <resources/>
+  <connections/>
+</ui>
