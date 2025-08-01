@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>EditMatchingWindow</class>
+  <widget class="QDialog" name="EditMatchingWindow">
+    <property name="geometry">
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1000</width>
+        <height>600</height>
+      </rect>
+    </property>
+    <property name="windowTitle">
+      <string>Edit Matching</string>
+    </property>
+    <layout class="QHBoxLayout" name="main_layout" stretch="1,3">
+      <property name="spacing">
+        <number>10</number>
+      </property>
+      <item>
+        <widget class="QFrame" name="find_frame">
+          <layout class="QVBoxLayout" name="verticalLayout" stretch="1,1,0">
+            <item>
+              <widget class="QLabel" name="findbackphoto_v">
+                <property name="minimumSize">
+                  <size>
+                    <width>200</width>
+                    <height>200</height>
+                  </size>
+                </property>
+                <property name="text">
+                  <string>Back Photo</string>
+                </property>
+                <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                </property>
+              </widget>
+            </item>
+
+            <item>
+              <widget class="QLabel" name="findfrontphoto_v">
+                <property name="minimumSize">
+                  <size>
+                    <width>200</width>
+                    <height>200</height>
+                  </size>
+                </property>
+                <property name="text">
+                  <string>Front Photo</string>
+                </property>
+                <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                </property>
+              </widget>
+            </item>
+            <item>
+              <widget class="QLabel" name="findid_v">
+                <property name="text">
+                  <string>Find ID: 12</string>
+                </property>
+                <property name="font">
+                  <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                  </font>
+                </property>
+                <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                </property>
+              </widget>
+            </item>
+          </layout>
+        </widget>
+      </item>
+      <item>
+        <widget class="QFrame" name="models_frame">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+              <layout class="QGridLayout" name="model_grid">
+                <item row="0" column="0">
+                  <widget class="QFrame" name="checkmodel1">
+                    <layout class="QGridLayout" name="gridLayout_2">
+                      <item row="0" column="0">
+                        <widget class="QLabel" name="model_id1">
+                          <property name="text">
+                            <string>Model ID 1</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="1" column="0">
+                        <widget class="QLabel" name="model1">
+                          <property name="minimumSize">
+                            <size>
+                              <width>150</width>
+                              <height>150</height>
+                            </size>
+                          </property>
+                          <property name="text">
+                            <string>Model Preview</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="2" column="0">
+                        <widget class="QLabel" name="similarity_score1">
+                          <property name="text">
+                            <string>Similarity Score: 0.95</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                    </layout>
+                  </widget>
+                </item>
+                <item row="0" column="1">
+                  <widget class="QFrame" name="checkmodel2">
+                    <layout class="QGridLayout" name="gridLayout_3">
+                      <item row="0" column="0">
+                        <widget class="QLabel" name="model_id2">
+                          <property name="text">
+                            <string>Model ID 2</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="1" column="0">
+                        <widget class="QLabel" name="model2">
+                          <property name="minimumSize">
+                            <size>
+                              <width>150</width>
+                              <height>150</height>
+                            </size>
+                          </property>
+                          <property name="text">
+                            <string>Model Preview</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="2" column="0">
+                        <widget class="QLabel" name="similarity_score2">
+                          <property name="text">
+                            <string>Similarity Score: 0.92</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                    </layout>
+                  </widget>
+                </item>
+                <item row="0" column="2">
+                  <widget class="QFrame" name="checkmodel3">
+                    <layout class="QGridLayout" name="gridLayout_4">
+                      <item row="0" column="0">
+                        <widget class="QLabel" name="model_id3">
+                          <property name="text">
+                            <string>Model ID 3</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="1" column="0">
+                        <widget class="QLabel" name="model3">
+                          <property name="minimumSize">
+                            <size>
+                              <width>150</width>
+                              <height>150</height>
+                            </size>
+                          </property>
+                          <property name="text">
+                            <string>Model Preview</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="2" column="0">
+                        <widget class="QLabel" name="similarity_score3">
+                          <property name="text">
+                            <string>Similarity Score: 0.89</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                    </layout>
+                  </widget>
+                </item>
+                <item row="1" column="0">
+                  <widget class="QFrame" name="checkmodel4">
+                    <layout class="QGridLayout" name="gridLayout_5">
+                      <item row="0" column="0">
+                        <widget class="QLabel" name="model_id4">
+                          <property name="text">
+                            <string>Model ID 4</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="1" column="0">
+                        <widget class="QLabel" name="model4">
+                          <property name="minimumSize">
+                            <size>
+                              <width>150</width>
+                              <height>150</height>
+                            </size>
+                          </property>
+                          <property name="text">
+                            <string>Model Preview</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="2" column="0">
+                        <widget class="QLabel" name="similarity_score4">
+                          <property name="text">
+                            <string>Similarity Score: 0.87</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                    </layout>
+                  </widget>
+                </item>
+                <item row="1" column="1">
+                  <widget class="QFrame" name="checkmodel5">
+                    <layout class="QGridLayout" name="gridLayout_6">
+                      <item row="0" column="0">
+                        <widget class="QLabel" name="model_id5">
+                          <property name="text">
+                            <string>Model ID 5</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="1" column="0">
+                        <widget class="QLabel" name="model5">
+                          <property name="minimumSize">
+                            <size>
+                              <width>150</width>
+                              <height>150</height>
+                            </size>
+                          </property>
+                          <property name="text">
+                            <string>Model Preview</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="2" column="0">
+                        <widget class="QLabel" name="similarity_score5">
+                          <property name="text">
+                            <string>Similarity Score: 0.85</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                    </layout>
+                  </widget>
+                </item>
+                <item row="1" column="2">
+                  <widget class="QFrame" name="checkmodel6">
+                    <layout class="QGridLayout" name="gridLayout_7">
+                      <item row="0" column="0">
+                        <widget class="QLabel" name="model_id6">
+                          <property name="text">
+                            <string>Model ID 6</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="1" column="0">
+                        <widget class="QLabel" name="model6">
+                          <property name="minimumSize">
+                            <size>
+                              <width>150</width>
+                              <height>150</height>
+                            </size>
+                          </property>
+                          <property name="text">
+                            <string>Model Preview</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                      <item row="2" column="0">
+                        <widget class="QLabel" name="similarity_score6">
+                          <property name="text">
+                            <string>Similarity Score: 0.82</string>
+                          </property>
+                          <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                          </property>
+                        </widget>
+                      </item>
+                    </layout>
+                  </widget>
+                </item>
+              </layout>
+            </item>
+            <item>
+              <layout class="QHBoxLayout" name="model_buttons">
+                <item>
+                  <widget class="QPushButton" name="update_button">
+                    <property name="text">
+                      <string>Update</string>
+                    </property>
+                    <property name="minimumSize">
+                      <size>
+                        <width>100</width>
+                        <height>40</height>
+                      </size>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QPushButton" name="previous_button">
+                    <property name="text">
+                      <string>Previous</string>
+                    </property>
+                    <property name="minimumSize">
+                      <size>
+                        <width>100</width>
+                        <height>40</height>
+                      </size>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QPushButton" name="next_button">
+                    <property name="text">
+                      <string>Next</string>
+                    </property>
+                    <property name="minimumSize">
+                      <size>
+                        <width>100</width>
+                        <height>40</height>
+                      </size>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </item>
+          </layout>
+        </widget>
+      </item>
+    </layout>
+  </widget>
+  <resources/>
+  <connections/>
+</ui>
