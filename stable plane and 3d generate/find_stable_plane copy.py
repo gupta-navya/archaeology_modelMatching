@@ -1,23 +1,24 @@
 import numpy as np
 import open3d as o3d
-import trimesh
 import os
 import json
 
-def trimesh_to_open3d(tri_mesh):
-    mesh_o3d = o3d.geometry.TriangleMesh()
-    mesh_o3d.vertices = o3d.utility.Vector3dVector(tri_mesh.vertices)
-    mesh_o3d.triangles = o3d.utility.Vector3iVector(tri_mesh.faces)
-    mesh_o3d.compute_vertex_normals()
-    mesh_o3d.compute_triangle_normals()
-    return mesh_o3d
+def reconstruct_mesh_from_pointcloud(pcd_path, depth=8):
+    pcd = o3d.io.read_point_cloud(pcd_path)
+    pcd.estimate_normals()
+    mesh, _ = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(pcd, depth=depth)
+    mesh = mesh.crop(pcd.get_axis_aligned_bounding_box())
+    mesh.compute_triangle_normals()
+    return mesh
 
-def get_opposite_faces(mesh, distance_threshold=0.01, angle_threshold=15):
+def get_best_supported_face(mesh, distance_threshold=0.01):
     vertices = np.asarray(mesh.vertices)
     triangles = np.asarray(mesh.triangles)
     triangle_normals = np.asarray(mesh.triangle_normals)
 
-    face_supports = []
+    max_support = -1
+    best_index = None
+
     for i, tri in enumerate(triangles):
         v0, v1, v2 = [vertices[j] for j in tri]
         normal = triangle_normals[i]
@@ -28,99 +29,66 @@ def get_opposite_faces(mesh, distance_threshold=0.01, angle_threshold=15):
         support_indices = np.where(distances < distance_threshold)[0]
         support_count = len(support_indices)
 
-        face_supports.append({
-            "index": i,
-            "support_count": support_count,
-            "normal": normal.tolist(),
-            "center": np.mean([v0, v1, v2], axis=0).tolist(),
-            "supporting_vertices": support_indices.tolist()
-        })
+        if support_count > max_support:
+            max_support = support_count
+            best_index = i
+            best_normal = normal
+            best_center = np.mean([v0, v1, v2], axis=0)
+            best_supporting_vertices = support_indices.tolist()
 
-    face_supports.sort(key=lambda x: x["support_count"], reverse=True)
+    return {
+        "index": best_index,
+        "support_count": max_support,
+        "normal": best_normal.tolist(),
+        "center": best_center.tolist(),
+        "supporting_vertices": best_supporting_vertices
+    }
 
-    if not face_supports:
-        return [], []
+def get_opposite_face(mesh, primary_face, distance_threshold=0.01, angle_threshold=150):
+    vertices = np.asarray(mesh.vertices)
+    triangles = np.asarray(mesh.triangles)
+    triangle_normals = np.asarray(mesh.triangle_normals)
 
-    primary_face = face_supports[0]
-    opposite_face = None
+    primary_normal = np.array(primary_face["normal"])
+    primary_center = np.array(primary_face["center"])
 
-    for face in face_supports[1:]:
-        angle = np.degrees(np.arccos(np.clip(np.dot(primary_face["normal"], face["normal"]), -1, 1)))
-        if angle > (180 - angle_threshold):
-            opposite_face = face
-            break
+    best_score = -1
+    best_face = None
 
-    if opposite_face is None and len(face_supports) > 1:
-        opposite_face = face_supports[1]
+    for i, tri in enumerate(triangles):
+        if i == primary_face["index"]:
+            continue
 
-    return primary_face, opposite_face
+        v0, v1, v2 = [vertices[j] for j in tri]
+        normal = triangle_normals[i]
+        normal /= np.linalg.norm(normal)
+        dot = np.dot(primary_normal, normal)
+        angle = np.degrees(np.arccos(np.clip(dot, -1, 1)))
 
-def compute_alignment_transform(normal, center):
-    normal = np.array(normal)
-    center = np.array(center)
-    normal /= np.linalg.norm(normal)
+        if angle < angle_threshold:
+            continue
 
-    target_normal = np.array([0, 0, 1])
-    v = np.cross(normal, target_normal)
-    c = np.dot(normal, target_normal)
-    s = np.linalg.norm(v)
+        d = -np.dot(normal, v0)
+        distances = np.abs(vertices @ normal + d)
+        support_indices = np.where(distances < distance_threshold)[0]
+        support_count = len(support_indices)
 
-    if s == 0:
-        R = np.eye(3)
-    else:
-        vx = np.array([[0, -v[2], v[1]],
-                       [v[2], 0, -v[0]],
-                       [-v[1], v[0], 0]])
-        R = np.eye(3) + vx + vx @ vx * ((1 - c) / (s ** 2))
+        center = np.mean([v0, v1, v2], axis=0)
+        separation = np.linalg.norm(center - primary_center)
 
-    T = -R @ center
+        score = support_count * separation  # prioritize distant + supported
 
-    transform = np.eye(4)
-    transform[:3, :3] = R
-    transform[:3, 3] = T
+        if score > best_score:
+            best_score = score
+            best_face = {
+                "index": i,
+                "support_count": support_count,
+                "normal": normal.tolist(),
+                "center": center.tolist(),
+                "supporting_vertices": support_indices.tolist()
+            }
 
-    return transform
-
-def load_or_reconstruct_mesh(ply_path):
-    mesh = trimesh.load(ply_path)
-    if isinstance(mesh, trimesh.Scene):
-        meshes = [g for g in mesh.geometry.values() if isinstance(g, trimesh.Trimesh)]
-        if not meshes:
-            raise TypeError("Scene contains no valid Trimesh geometries.")
-        mesh = trimesh.util.concatenate(meshes)
-    elif isinstance(mesh, trimesh.Trimesh):
-        return mesh
-    else:
-        pcd = o3d.io.read_point_cloud(ply_path)
-        if len(pcd.points) == 0:
-            raise TypeError("File is neither a mesh nor a valid point cloud.")
-        pcd.estimate_normals()
-        mesh_o3d, _ = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(pcd, depth=8)
-        mesh_o3d = mesh_o3d.crop(pcd.get_axis_aligned_bounding_box())
-        vertices = np.asarray(mesh_o3d.vertices)
-        faces = np.asarray(mesh_o3d.triangles)
-        mesh = trimesh.Trimesh(vertices=vertices, faces=faces)
-    return mesh
-
-def save_snapshot(mesh, transform, filename):
-    vis = o3d.visualization.Visualizer()
-    vis.create_window(width=800, height=600, visible=False)
-
-    transformed_mesh = o3d.geometry.TriangleMesh(mesh)
-    transformed_mesh.transform(transform)
-
-    vis.add_geometry(transformed_mesh)
-
-    ctr = vis.get_view_control()
-    ctr.set_front([0, 0, -1])
-    ctr.set_up([0, 1, 0])
-    ctr.set_zoom(0.8)
-
-    vis.poll_events()
-    vis.update_renderer()
-    vis.capture_screen_image(filename)
-    vis.destroy_window()
-    print(f"Saved snapshot to {filename}")
+    return best_face
 
 def save_face_info_json(primary_face, opposite_face, ply_filename, output_path):
     data = {
@@ -135,24 +103,17 @@ def save_face_info_json(primary_face, opposite_face, ply_filename, output_path):
 if __name__ == "__main__":
     input_path = "model.ply"
     base_name = os.path.splitext(os.path.basename(input_path))[0]
-
-    mesh = load_or_reconstruct_mesh(input_path)
-    hull = mesh.convex_hull
-    hull_o3d = trimesh_to_open3d(hull)
-
-    primary_face, opposite_face = get_opposite_faces(hull_o3d, distance_threshold=0.01)
-
-    output_dir = f"{base_name}_pics"
-    os.makedirs(output_dir, exist_ok=True)
-
-    colored_mesh = o3d.io.read_triangle_mesh(input_path)
-    colored_mesh.compute_vertex_normals()
-
-    for i, face in enumerate([primary_face, opposite_face]):
-        if face:
-            transform = compute_alignment_transform(face["normal"], face["center"])
-            output_path = os.path.join(output_dir, f"{base_name}_view_{i+1}.png")
-            save_snapshot(colored_mesh, transform, output_path)
-
     json_path = os.path.join(os.path.dirname(input_path), f"{base_name}_face_info.json")
+
+    # Load mesh
+    mesh = o3d.io.read_triangle_mesh(input_path)
+    if not mesh.has_triangles():
+        mesh = reconstruct_mesh_from_pointcloud(input_path)
+    mesh.compute_triangle_normals()
+
+    # Find primary and opposite faces
+    primary_face = get_best_supported_face(mesh, distance_threshold=0.01)
+    opposite_face = get_opposite_face(mesh, primary_face, distance_threshold=0.01)
+
+    # Save JSON
     save_face_info_json(primary_face, opposite_face, os.path.basename(input_path), json_path)
