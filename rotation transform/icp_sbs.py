@@ -5,7 +5,7 @@ from scipy.spatial import KDTree
 
 # --- Step 1: Load and sample contours ---
 def get_best_contour(img_path, n_points=200):
-    img = cv2.imread(img_path)
+    img = img_path
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     _, thresh = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY)
     contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
