@@ -5,7 +5,7 @@ import numpy as np
 import open3d as o3d
 import cv2
 import matplotlib.pyplot as plt
-from icp_sbs import get_best_contour, normalize_scale, pca_angle, rotate, align_with_reflection_check_all, plot_contours
+from icp_sbs import get_best_contour, normalize_scale, pca_angle, rotate, align_with_reflection_check_all,plot_contours
 
 def save_snapshots_from_planes(json_path, output_dir="model_pics"):
     with open(json_path, "r") as f:
@@ -15,7 +15,7 @@ def save_snapshots_from_planes(json_path, output_dir="model_pics"):
     mesh.compute_vertex_normals()
 
     os.makedirs(output_dir, exist_ok=True)
-    img_paths = [] 
+    img_paths = []
 
     for i, face_key in enumerate(["primary_face", "opposite_face"], start=1):
         face = data.get(face_key)
