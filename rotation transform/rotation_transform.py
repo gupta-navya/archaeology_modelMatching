@@ -50,10 +50,10 @@ def show_image_cv2(img_path, window_name):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-def align_and_show(img1_path, img2_path):
+def align_and_show(img1, img2):
     # Step 1: Extract contours
-    contour_2d = get_best_contour(img1_path)
-    contour_3d = get_best_contour(img2_path)
+    contour_2d = get_best_contour(img1)
+    contour_3d = get_best_contour(img2)
 
     # Step A: Raw contours
     #plot_contours(contour_2d, contour_3d, "Step A: Raw Contours")
@@ -162,25 +162,14 @@ def show_final_aligned_mesh(json_path, angle_deg, mean_2d, scale_2d):
     vis.destroy_window()
 
 if __name__ == "__main__":
-    # Step 1: Generate and show snapshots from both faces
     json_path = "model_face_info.json"
-    img_find_path = "img.jpg"  # 2D find photograph
+    img_find_path = "img.jpg"
 
-    #print("Generating 3D model snapshots...")
     img_paths = save_snapshots_from_planes(json_path)
     img1_path, img2_path = img_paths[0], img_paths[1]
 
-    #print("Showing 3D model snapshot (primary face)...")
-    #show_image_cv2(img1_path, "Primary Face Snapshot (1.jpg)")
-    #print("Showing 3D model snapshot (opposite face)...")
-    #show_image_cv2(img2_path, "Opposite Face Snapshot (2.jpg)")
-    #print("Showing 2D find photograph...")
-    #show_image_cv2(img_find_path, "Find Photograph (img.jpg)")
+    img_find = cv2.imread(img_find_path)
+    img1 = cv2.imread(img1_path)
 
-    # Step 2: Align contours and show each step
-    #print("Running contour alignment and ICP...")
-    angle_deg, mean_2d, scale_2d = align_and_show(img_find_path, img1_path)
-
-    # Step 3: Show final aligned 3D model
-    #print("Showing final aligned 3D model...")
+    angle_deg, mean_2d, scale_2d = align_and_show(img_find, img1)
     show_final_aligned_mesh(json_path, angle_deg, mean_2d, scale_2d)
