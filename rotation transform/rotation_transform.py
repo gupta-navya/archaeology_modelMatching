@@ -137,7 +137,7 @@ def show_final_aligned_mesh(json_path, angle_deg, mean_2d, scale_2d):
 
     ctr = vis.get_view_control()
     params = ctr.convert_to_pinhole_camera_parameters()
-
+'''
     # Your before and after extrinsics (from your earlier message)
     E_before = np.array([
         [ 1.,  0.,  0., -6.52592526],
@@ -155,7 +155,7 @@ def show_final_aligned_mesh(json_path, angle_deg, mean_2d, scale_2d):
     # Compute the transformation
     T = E_after @ np.linalg.inv(E_before)
     # Apply this transformation to the current extrinsic
-    params.extrinsic = T @ params.extrinsic
+    params.extrinsic = T @ params.extrinsic'''
     ctr.convert_from_pinhole_camera_parameters(params)
 
     vis.run()
@@ -173,3 +173,4 @@ if __name__ == "__main__":
 
     angle_deg, mean_2d, scale_2d = align_and_show(img_find, img1)
     show_final_aligned_mesh(json_path, angle_deg, mean_2d, scale_2d)
+
