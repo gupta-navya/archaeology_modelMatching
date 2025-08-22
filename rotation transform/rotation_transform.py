@@ -11,39 +11,69 @@ def save_snapshots_from_planes(json_path, output_dir="model_pics"):
     with open(json_path, "r") as f:
         data = json.load(f)
 
-    mesh = o3d.io.read_triangle_mesh(data["ply_file"])
-    mesh.compute_vertex_normals()
-
+    mesh_path = data["ply_file"]
     os.makedirs(output_dir, exist_ok=True)
     img_paths = []
 
-    for i, face_key in enumerate(["primary_face", "opposite_face"], start=1):
-        face = data.get(face_key)
-        if face:
-            center = np.array(face["center"])
-            normal = np.array(face["normal"])
-            normal /= np.linalg.norm(normal)
-            camera_position = center + 1.5 * normal
+    face = data.get("primary_face")
+    mesh = o3d.io.read_triangle_mesh(mesh_path)  # Reload mesh each time
+    mesh.compute_vertex_normals()
+    center = np.array(face["center"])
+    normal = np.array(face["normal"])
+    normal /= np.linalg.norm(normal)
+    bbox = mesh.get_axis_aligned_bounding_box()
+    extent = bbox.get_extent()
+    distance = max(extent) * 1.5
+    camera_position = center + distance * normal
 
-            vis = o3d.visualization.Visualizer()
-            vis.create_window(visible=False)
-            vis.add_geometry(mesh)
+    vis = o3d.visualization.Visualizer()
+    vis.create_window(visible=False)
+    vis.get_render_option().mesh_show_back_face = True
+    vis.add_geometry(mesh)
 
-            ctr = vis.get_view_control()
-            ctr.set_lookat(center)
-            ctr.set_front(center - camera_position)
-            ctr.set_up([0, 1, 0])
-            ctr.set_zoom(0.7)
+    ctr = vis.get_view_control()
+    ctr.set_lookat(center)
+    ctr.set_front(center - camera_position)
+    ctr.set_up([0, 1, 0])
+    ctr.set_zoom(0.7)
+    vis.poll_events()
+    vis.update_renderer()
+    time.sleep(0.3)
+    img_path = os.path.join(output_dir, "1.jpg")
+    vis.capture_screen_image(img_path)
+    #vis.destroy_window()
+    img_paths.append(img_path)
 
-            vis.poll_events()
-            vis.update_renderer()
-            time.sleep(0.3)
-            img_path = os.path.join(output_dir, f"{i}.jpg")
-            vis.capture_screen_image(img_path)
-            vis.destroy_window()
-            img_paths.append(img_path)
+    face= data.get("opposite_face")
+    mesh = o3d.io.read_triangle_mesh(mesh_path)  # Reload mesh each time
+    mesh.compute_vertex_normals()
+    center = np.array(face["center"])
+    normal = np.array(face["normal"])
+    normal /= np.linalg.norm(normal)
+    bbox = mesh.get_axis_aligned_bounding_box()
+    extent = bbox.get_extent()
+    distance = max(extent) * 1.5
+    camera_position = center + distance * normal
+
+    vis2 = o3d.visualization.Visualizer()
+    vis2.create_window(visible=False)
+    vis2.get_render_option().mesh_show_back_face = True
+    vis2.add_geometry(mesh)
+
+    ctr = vis2.get_view_control()
+    ctr.set_lookat(center)
+    ctr.set_front(center - camera_position)
+    ctr.set_up([0, 1, 0])
+    ctr.set_zoom(0.7)
+    vis2.poll_events()
+    vis2.update_renderer()
+    time.sleep(0.3)
+    img_path = os.path.join(output_dir, "2.jpg")
+    vis2.capture_screen_image(img_path)
+    #vis.destroy_window()
+    img_paths.append(img_path)
     return img_paths
-
+    
 def show_image_cv2(img_path, window_name):
     img = cv2.imread(img_path)
     cv2.imshow(window_name, img)
@@ -51,35 +81,37 @@ def show_image_cv2(img_path, window_name):
     cv2.destroyAllWindows()
 
 def align_and_show(img1, img2):
-    # Step 1: Extract contours
     contour_2d = get_best_contour(img1)
     contour_3d = get_best_contour(img2)
-
-    # Step A: Raw contours
-    #plot_contours(contour_2d, contour_3d, "Step A: Raw Contours")
+    '''plot_contours(contour_2d, contour_3d, "Step A: Raw Contours")
 
     # Step B: Normalized contours
     norm_2d, mean_2d, scale_2d = normalize_scale(contour_2d)
     norm_3d, _, _ = normalize_scale(contour_3d)
-    #plot_contours(norm_2d, norm_3d, "Step B: Normalized Contours")
+    plot_contours(norm_2d, norm_3d, "Step B: Normalized Contours")
 
     # Step C: PCA-aligned orientations
     angle_2d = pca_angle(norm_2d)
     angle_3d = pca_angle(norm_3d)
     rotated_3d = rotate(norm_3d, angle_2d - angle_3d)
-    #plot_contours(norm_2d, rotated_3d, "Step C: PCA Orientation Aligned")
+    plot_contours(norm_2d, rotated_3d, "Step C: PCA Orientation Aligned")
 
     # Step D: ICP with reflection check
     aligned_3d_norm = align_with_reflection_check_all(rotated_3d, norm_2d)
-    #plot_contours(norm_2d, aligned_3d_norm, "Step D: ICP-Aligned (Normalized Space)")
+    plot_contours(norm_2d, aligned_3d_norm, "Step D: ICP-Aligned (Normalized Space)")
 
     # Step E: Rescale to original space
     final_3d = aligned_3d_norm * scale_2d + mean_2d
-    #plot_contours(contour_2d, final_3d, "Step E: Final Alignment (Original Space)")
-
-    # Compute transformation (rotation + translation) in 2D
-    # For 3D, you need to lift this to 3D (see below)
-    return angle_2d - angle_3d, mean_2d, scale_2d
+    plot_contours(contour_2d, final_3d, "Step E: Final Alignment (Original Space)")'''
+    
+    norm_2d, mean_2d, scale_2d = normalize_scale(contour_2d)
+    norm_3d, _, _ = normalize_scale(contour_3d)
+    angle_2d = pca_angle(norm_2d)
+    angle_3d = pca_angle(norm_3d)
+    rotated_3d = rotate(norm_3d, angle_2d - angle_3d)
+    aligned_3d_norm, error = align_with_reflection_check_all(rotated_3d, norm_2d)
+    final_3d = aligned_3d_norm * scale_2d + mean_2d
+    return angle_2d - angle_3d, mean_2d, scale_2d, error
 
 def apply_2d_alignment_to_3d_mesh(mesh, face, angle_deg, mean_2d, scale_2d):
     # This is a simplified version: assumes the primary face is parallel to XY
@@ -137,25 +169,6 @@ def show_final_aligned_mesh(json_path, angle_deg, mean_2d, scale_2d):
 
     ctr = vis.get_view_control()
     params = ctr.convert_to_pinhole_camera_parameters()
-'''
-    # Your before and after extrinsics (from your earlier message)
-    E_before = np.array([
-        [ 1.,  0.,  0., -6.52592526],
-        [-0., -1., -0., -6.33827315],
-        [-0., -0., -1., 35.26014936],
-        [ 0.,  0.,  0.,  1.]
-    ])
-    E_after = np.array([
-        [-0.99071542, -0.08131189,  0.10895568,  6.12155619],
-        [ 0.07458569, -0.99512945, -0.0644543,  -6.89565441],
-        [ 0.1136659,  -0.05572933,  0.99195479, 37.30235108],
-        [ 0.,          0.,          0.,          1.        ]
-    ])
-
-    # Compute the transformation
-    T = E_after @ np.linalg.inv(E_before)
-    # Apply this transformation to the current extrinsic
-    params.extrinsic = T @ params.extrinsic'''
     ctr.convert_from_pinhole_camera_parameters(params)
 
     vis.run()
@@ -168,9 +181,24 @@ if __name__ == "__main__":
     img_paths = save_snapshots_from_planes(json_path)
     img1_path, img2_path = img_paths[0], img_paths[1]
 
+    # Show the snapshots in windows
+    show_image_cv2(img1_path, "Primary Face Snapshot")
+    show_image_cv2(img2_path, "Opposite Face Snapshot")
+
     img_find = cv2.imread(img_find_path)
     img1 = cv2.imread(img1_path)
+    img2 = cv2.imread(img2_path)
 
-    angle_deg, mean_2d, scale_2d = align_and_show(img_find, img1)
-    show_final_aligned_mesh(json_path, angle_deg, mean_2d, scale_2d)
+    # Align and show for primary face
+    angle_deg1, mean_2d1, scale_2d1,error1 = align_and_show(img_find, img1)
+    print(error1)
 
+    # Align and show for opposite face
+    angle_deg2, mean_2d2, scale_2d2,error2 = align_and_show(img_find, img2)
+    print(error2)
+
+    if error1>error2:
+    # Show final aligned mesh for both (optional)
+        show_final_aligned_mesh(json_path, angle_deg2, mean_2d2, scale_2d2)
+    else:
+        show_final_aligned_mesh(json_path, angle_deg1, mean_2d1, scale_2d1)
