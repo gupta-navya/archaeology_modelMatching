@@ -72,11 +72,10 @@ def align_with_reflection_check_all(source, target):
     best_result, best_error = None, float("inf")
     for label, variant in flips.items():
         aligned, _, _, error = icp_2d(variant, target)
-        #print(f"{label:<10} ICP error: {error:.4f}")
         if error < best_error:
             best_result = aligned
             best_error = error
-    return best_result
+    return best_result, best_error
 
 # --- Step 6: Plotting utility ---
 def plot_contours(pts_red, pts_blue, title):
